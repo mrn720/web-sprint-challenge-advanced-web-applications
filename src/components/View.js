@@ -1,25 +1,36 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import { Route, useParams, useHistory } from 'react-router-dom';
+import axiosWithAuth from '../utils/axiosWithAuth'
 import Article from './Article';
 import EditForm from './EditForm';
+import axios from 'axios';
 
 const View = (props) => {
-    const [articles, setArticles] = useState([]);
+    const [articles, setArticles] = useState([props]);
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
+    const {push} = useHistory()
 
     const handleDelete = (id) => {
+
+      axiosWithAuth.delete(`http://localhost:5000/api/articles/${id}`)
+      .then(res => {
+        setArticles(res.data)
+        push('/view')
+      })
+      .catch(err => console.log(err))
     }
 
-    const handleEdit = (article) => {
+    const handleEdit = (id) => {
+        axios.put(`http://localhost:5000/api/articles/${id}`)
+        .then(push(`/view`))
     }
 
     const handleEditSelect = (id)=> {
         setEditing(true);
         setEditId(id);
     }
-
     const handleEditCancel = ()=>{
         setEditing(false);
     }
@@ -43,15 +54,7 @@ const View = (props) => {
         </ContentContainer>
     </ComponentContainer>);
 }
-
 export default View;
-
-//Task List:
-//1. Build and import axiosWithAuth module in the utils.
-//2. When the component mounts, make an http request that adds all articles to state.
-//3. Complete handleDelete method. It should make a request that delete the article with the included id.
-//4. Complete handleEdit method. It should make a request that updates the article that matches the included article param.
-
 
 const Container = styled.div`
     padding: 0.5em;
@@ -64,12 +67,10 @@ const HeaderContainer = styled.h1`
     background: black;
     color: white;
 `
-
 const ArticleDivider = styled.div`
     border-bottom: 1px solid black;
     padding: 1em;
 `
-
 const ComponentContainer = styled.div`
     display:flex;
     width: 80%;
@@ -77,12 +78,10 @@ const ComponentContainer = styled.div`
     justify-content: center;
     
 `
-
 const ContentContainer = styled.div`
     display: flex;
     flex-direction: ${props => props.flexDirection};
 `
-
 const ArticleContainer = styled.div`
     background: grey;
 `;

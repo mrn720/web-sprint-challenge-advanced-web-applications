@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -28,7 +29,13 @@ const EditForm = (props)=> {
 
     const handleCancel = (e) => {
         e.preventDefault();
-        handleEditCancel();
+        handleEditCancel(axios.put(`http://localhost:5000/api/articles/${editId}`, item)
+        .then(res => {
+          props.setArticle(res.data)
+          props.history.push(`/article/${editId}`)
+  
+        })
+        .catch(err => console.log(err)));
     }
 
     return(<FormContainer onSubmit={handleSubmit}>
@@ -55,10 +62,6 @@ const EditForm = (props)=> {
 }
 
 export default EditForm;
-
-//Task List:
-// 1. On mount, make a http request to retrieve the article with the id `editId.`
-// 2. Save result of request to local state.
 
 const FormContainer = styled.form`
     padding: 1em;
