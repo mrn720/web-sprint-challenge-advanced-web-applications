@@ -5,8 +5,7 @@ const axiosWithAuth = () => {
     return axios.create({
         headers: {
           authorization: `Bearer ${token}`
-        },
-        baseURL: 'http://localhost:5000/api/articles/',
+        }
       }); 
 }
 

@@ -22,20 +22,20 @@ const Login = () => {
 
   const login = e => {
     e.preventDefault();
-    if (credentials.username !== 'Lambda' || credentials.password !== 'School') {
+    if (credentials.username == 'Lambda' && credentials.password == 'School') {
+      axiosWithAuth().post('http://localhost:5000/api/login', credentials)
+      .then((res) => {
+        console.log("Axios Login Push", res)
+        localStorage.setItem('token', res.data.token)
+        push('/view')
+      })
+      .catch((err) => {
+        console.log({err})
+    })}
+    else {
       setErrorMessage('Username or Password is not valid.')
+      console.log('Incorrect Details')
     }
-
-    axiosWithAuth()
-    .post('http://localhost:5000/api/login', credentials)
-    .then((res) => {
-      console.log("Axios Login Push", res)
-      localStorage.setItem('token', res.data.payload)
-      push('/view')
-    })
-    .catch((err) => {
-      console.log({err})
-    })
   }
 
   return(<ComponentContainer>

@@ -12,7 +12,7 @@ test('renders component without errors', ()=> {
 });
 
 // test('renders headline, author from the article when passed in through props', ()=> {
-    render(<Article headline = {Article.headline}/>)
+    rerender(<Article headline = {Article.headline}/>)
 
 
 
@@ -20,7 +20,7 @@ test('renders component without errors', ()=> {
 
 // test('renders "Associated Press" when no author is given', ()=> {
 
-    render(<Article/>)
+    rerender(<Article/>)
 
     const AssociatedPress = screen.queryByText(/no author is given/i)
     expect (AssociatedPress ).toBeInTheDocument()
@@ -28,7 +28,7 @@ test('renders component without errors', ()=> {
 
 // test('executes handleDelete when the delete button is pressed', ()=> {
 
-    render(<Article  handleDelete = {deleteButton}/>)
+    rerender(<Article  handleDelete = {deleteButton}/>)
 
 
 // });
