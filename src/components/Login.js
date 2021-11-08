@@ -23,7 +23,7 @@ const Login = () => {
   const login = e => {
     e.preventDefault();
     if (credentials.username !== 'Lambda' || credentials.password !== 'School') {
-      setError('Username or Password is not valid.')
+      setErrorMessage('Username or Password is not valid.')
     }
 
     axiosWithAuth()
@@ -63,7 +63,10 @@ const Login = () => {
       />
       <button onClick={login} id="submit">Log in</button>
     </form>
+    <p>{errorMessage}</p>
   </div>
+
+  
 
     </ModalContainer>
 </ComponentContainer>); 

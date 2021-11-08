@@ -12,7 +12,7 @@ test('renders component without errors', ()=> {
 });
 
 // test('renders headline, author from the article when passed in through props', ()=> {
-    render(<Article headline = {article.headline}/>)
+    render(<Article headline = {Article.headline}/>)
 
 
 
