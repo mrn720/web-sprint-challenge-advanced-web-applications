@@ -11,24 +11,24 @@ test('renders component without errors', ()=> {
 
 });
 
-// test('renders headline, author from the article when passed in through props', ()=> {
-    rerender(<Article headline = {Article.headline}/>)
+test('renders headline, author from the article when passed in through props', ()=> {
+    render(<Article headline = {Article.headline}/>)
 
 
 
-// });
+});
 
-// test('renders "Associated Press" when no author is given', ()=> {
+test('renders "Associated Press" when no author is given', ()=> {
 
-    rerender(<Article/>)
+    render(<Article/>)
 
     const AssociatedPress = screen.queryByText(/no author is given/i)
     expect (AssociatedPress ).toBeInTheDocument()
-// });
+});
 
-// test('executes handleDelete when the delete button is pressed', ()=> {
+test('executes handleDelete when the delete button is pressed', ()=> {
 
-    rerender(<Article  handleDelete = {deleteButton}/>)
+    render(<Article  handleDelete = {deleteButton}/>)
 
 
-// });
+});
