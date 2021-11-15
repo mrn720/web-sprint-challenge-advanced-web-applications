@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import {useHistory} from 'react-router';
+import axiosWithAuth from '../utils/axiosWithAuth';
 
 const Logout = () => {        
    const {push}=useHistory();
 
     const logout = () => {
-        axios.post('http://localhost:5000/api/logout')
+        axiosWithAuth().post('http://localhost:5000/api/logout')
         .then(res =>{
             console.log(res)
             localStorage.clear()

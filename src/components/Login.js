@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import {useHistory} from 'react-router';
-import axiosWithAuth from '../utils/axiosWithAuth';
+import axios from 'axios';
 
 const initialValues = {
   username: "",
@@ -23,9 +23,8 @@ const Login = () => {
   const login = e => {
     e.preventDefault();
     if (credentials.username == 'Lambda' && credentials.password == 'School') {
-      axiosWithAuth().post('http://localhost:5000/api/login', credentials)
+      axios.post('http://localhost:5000/api/login', credentials)
       .then((res) => {
-        console.log("Axios Login Push", res)
         localStorage.setItem('token', res.data.token)
         push('/view')
       })

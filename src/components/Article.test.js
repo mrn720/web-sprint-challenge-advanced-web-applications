@@ -1,34 +1,41 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Article from './Article';
 
-test('renders component without errors', ()=> {
-    const { rerender } = render(<Article article={[]}/>)
-    let articleObjects = screen.queryAllByTestId('article')
-    expect(articleObjects).toHaveLength(0)
+const articleTest = {
+    id: 'a7xd8', 
+    headline: "This is a headline", 
+    createdOn: '2021-11-15T02:13:21-06:00', 
+    summary: "This is the summary", 
+    body: "This is the body"  
+}
 
-    rerender(<Article articles={Article} />)
-    articleObjects = screen.queryAllByTestId('article')
-    expect(articleObjects).toHaveLength(3)
-
+test('renders component without errors', () => {
+    render(<Article />);
 });
 
-test('renders headline, author from the article when passed in through props', ()=> {
-    render(<Article headline = {Article.headline}/>)
-
-
-
+test('renders headline, author from the article when passed in through props', () => {
+    render(<Article article={articleTest}/>);
+    
+    const headline = screen.queryByTestId('headline');
+    const author = screen.queryByTestId('author');
+   
+    expect(headline).toBeInTheDocument();
+    expect(author).toBeInTheDocument();
+    
 });
 
-test('renders "Associated Press" when no author is given', ()=> {
-
-    render(<Article/>)
-
-    const AssociatedPress = screen.queryByText(/no author is given/i)
-    expect (AssociatedPress ).toBeInTheDocument()
+test('renders "Associated Press" when no author is given', () => {
+    render(<Article article={articleTest} />);
+    const author = screen.queryByTestId('author');
+    expect(author).toHaveTextContent(/Associated Press/i);
 });
 
-test('executes handleDelete when the delete button is pressed', ()=> {
-
-    render(<Article  handleDelete = {deleteButton}/>)
-
-
+test('executes handleDelete when the delete button is pressed', () => {
+    const handleDelete = jest.fn();
+    render(<Article article={articleTest} handleDelete={handleDelete}/>);
+    const deleteBtn = screen.queryByTestId('deleteButton');
+    userEvent.click(deleteBtn);
+    expect(handleDelete).toHaveBeenCalled();
 });

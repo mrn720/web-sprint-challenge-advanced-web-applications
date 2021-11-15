@@ -2,7 +2,6 @@ import React from 'react';
 import  {BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import PrivateRoute from './PrivateRoute';
 import styled from 'styled-components';
-import axiosWithAuth from '../utils/axiosWithAuth'
 import Header from './Header';
 import LambdaHeader from './LambdaHeader';
 import View from './View';

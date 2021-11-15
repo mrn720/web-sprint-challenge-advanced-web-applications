@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import axiosWithAuth from '../utils/axiosWithAuth'
 import Article from './Article';
 import EditForm from './EditForm';
-import axios from 'axios'
 
 const View = (props) => {
     const [articles, setArticles] = useState([props]);
@@ -12,22 +11,17 @@ const View = (props) => {
     const [editId, setEditId] = useState();
     const {push} = useHistory()
 
-    axios.get('http://localhost:5000/api/articles')
-        .then(res => setArticles(res.data.articles))
+    axiosWithAuth().get('http://localhost:5000/api/articles')
+        .then(res => setArticles(res.data))
 
     const handleDelete = (id) => {
 
-      axiosWithAuth.delete(`http://localhost:5000/api/articles/${id}`)
+      axiosWithAuth().delete(`http://localhost:5000/api/articles/${id}`)
       .then(res => {
         setArticles(res.data)
         push('/view')
       })
       .catch(err => console.log(err))
-    }
-
-    const handleEdit = (id) => {
-        axiosWithAuth.put(`http://localhost:5000/api/articles/${id}`)
-        .then(push(`/view`))
     }
 
     const handleEditSelect = (id)=> {
@@ -52,7 +46,7 @@ const View = (props) => {
             </ArticleContainer>
             
             {
-                editing && <EditForm editId={editId} handleEdit={handleEdit} handleEditCancel={handleEditCancel}/>
+                editing && <EditForm editId={editId} setEditing={setEditing} handleEditCancel={handleEditCancel}/>
             }
         </ContentContainer>
     </ComponentContainer>);
@@ -79,7 +73,6 @@ const ComponentContainer = styled.div`
     width: 80%;
     flex-direction: column;
     justify-content: center;
-    
 `
 const ContentContainer = styled.div`
     display: flex;
