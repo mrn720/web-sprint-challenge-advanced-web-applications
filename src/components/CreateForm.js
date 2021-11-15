@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import axiosWithAuth from '../utils/axiosWithAuth';
 
@@ -10,27 +11,30 @@ const initialArticle = {
     body: ""
 };
 
-const EditForm = (props)=> {
+const CreateForm = (props)=> {
     const [article, setArticle]  = useState(initialArticle);
-    const {setEditing, handleEditCancel, editId} = props;
+    const {setCreating, handleCreateCancel} = props;
 
     const handleChange = (e)=> {
         setArticle({
             ...article,
-            id: editId,
             [e.target.name]: e.target.value
         })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axiosWithAuth().put(`http://localhost:5000/api/articles/${editId}`, article)
-            .then(setEditing(false))
+        axiosWithAuth().post(`http://localhost:5000/api/articles/`, article)
+            .then(res => {
+                console.log(res)
+                setCreating(false);
+            })
     }
+
 
     const handleCancel = (e) => {
         e.preventDefault();
-        handleEditCancel()
+        handleCreateCancel();
     }
 
     return(<FormContainer onSubmit={handleSubmit}>
@@ -51,12 +55,16 @@ const EditForm = (props)=> {
             <label>Body</label>
             <input value={article.body} id="body" name="body" onChange={handleChange}/>
         </div>
-        <Button id="editButton" onClick = {handleSubmit}>Edit Article</Button>
+        <div>
+            <label>ID</label>
+            <input value={article.id} id="id" name = "id" onChange={handleChange}/>
+        </div>
+        <Button id="createButton" onClick = {handleSubmit}>Create Article</Button>
         <Button onClick={handleCancel}>Cancel</Button>
     </FormContainer>);
 }
 
-export default EditForm;
+export default CreateForm;
 
 const FormContainer = styled.form`
     padding: 1em;

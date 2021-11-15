@@ -4,11 +4,13 @@ import { useHistory } from 'react-router-dom';
 import axiosWithAuth from '../utils/axiosWithAuth'
 import Article from './Article';
 import EditForm from './EditForm';
+import CreateForm from './CreateForm';
 
 const View = (props) => {
     const [articles, setArticles] = useState([props]);
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
+    const [creating, setCreating] = useState(false);
     const {push} = useHistory()
 
     axiosWithAuth().get('http://localhost:5000/api/articles')
@@ -24,16 +26,26 @@ const View = (props) => {
       .catch(err => console.log(err))
     }
 
-    const handleEditSelect = (id)=> {
+    const handleEditSelect = (id) => {
         setEditing(true);
         setEditId(id);
     }
-    const handleEditCancel = ()=>{
+    const handleEditCancel = () =>{
         setEditing(false);
     }
 
+    const handleCreateCancel = () => {
+        setCreating(false);
+    }
+
+    const handleCreate = () => {
+        setCreating(true);
+    }
+
     return(<ComponentContainer>
-        <HeaderContainer>View Articles</HeaderContainer>
+        <HeaderContainer>View Articles
+            <button onClick={handleCreate} >Create Article</button>
+        </HeaderContainer>
         <ContentContainer flexDirection="row">
             <ArticleContainer>
                 {
@@ -47,6 +59,9 @@ const View = (props) => {
             
             {
                 editing && <EditForm editId={editId} setEditing={setEditing} handleEditCancel={handleEditCancel}/>
+            }
+            {
+                creating && <CreateForm setCreating={setCreating} handleCreateCancel={handleCreateCancel}/>
             }
         </ContentContainer>
     </ComponentContainer>);
